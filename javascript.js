@@ -1,4 +1,9 @@
 
+const date = new Date();
+// hour
+var hour = date.getHours();
+if (hour > 12) { hour -= 12 }
+
 
 //TODO THEN the current day is displayed at the top of the calendar
 setInterval(function () {
@@ -11,13 +16,13 @@ setInterval(function () {
     // get year
     const year = date.getFullYear();
     // hour
-    let hour = date.getHours();
+    var hour = date.getHours();
     if (hour > 12) { hour -= 12 }
     // minute
-    let minutes = date.getMinutes();
+    var minutes = date.getMinutes();
     if (minutes < 10) { minutes = `0` + `${minutes}` }
     // seconds
-    let seconds = date.getSeconds();
+    var seconds = date.getSeconds();
     if (seconds < 10) { seconds = `0` + `${seconds}` }
 
     const formattedTime = `${month}/${day}/${year} ${hour}:${minutes}:${seconds}`;
@@ -33,16 +38,24 @@ var plannerArray = []
 $(".time-block").each(function () {
     // grabs attr data-num value then determines if it's morning or afternoon
     var timehr = $(this).attr("data-num")
-
-
+    // .bg-secondary
+    // .bg-success
+    // .bg-info
     // colorchanging function
     // How does it trigger?
     // When currentTime < timehr set box to green
     // When currentTime = timehr set box to red
     // Else set box to gray
-    if (timehr < 12) { `${timehr}AM` }
-    else if (timehr == 12) { `${timehr}PM` }
-    else { `${timehr - 12}PM` }
+
+    //Select ELement
+
+    // 
+    if (`${timehr}` == hour) { $(`#hour-${timehr}`).find("textarea").addClass("bg-warning") }
+    else if (hour < timehr) { $(`#hour-${timehr}`).find("textarea").addClass("bg-success") }
+    else { $("textarea").addClass("bg-secondary") }
+
+    console.log(`${timehr} < ${hour}`)
+
     //targets the save btn and listens for a click to run event
 
 

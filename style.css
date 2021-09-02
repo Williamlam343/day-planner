@@ -75,4 +75,5 @@ textarea {
   display: flex;
   position: relative;
   justify-content: center;
+  height: 20px;
 }
