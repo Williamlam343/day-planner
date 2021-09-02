@@ -2,7 +2,7 @@
 const date = new Date();
 // hour
 var hour = date.getHours();
-if (hour > 12) { hour -= 12 }
+
 
 
 //TODO THEN the current day is displayed at the top of the calendar
@@ -38,6 +38,7 @@ var plannerArray = []
 $(".time-block").each(function () {
     // grabs attr data-num value then determines if it's morning or afternoon
     var timehr = $(this).attr("data-num")
+
     // .bg-secondary
     // .bg-success
     // .bg-info
