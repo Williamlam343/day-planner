@@ -34,18 +34,33 @@ $(".time-block").each(function () {
     // grabs attr data-num value then determines if it's morning or afternoon
     var timehr = $(this).attr("data-num")
 
+
+    // colorchanging function
+    // How does it trigger?
+    // When currentTime < timehr set box to green
+    // When currentTime = timehr set box to red
+    // Else set box to gray
+    if (timehr < 12) { `${timehr}AM` }
+    else if (timehr == 12) { `${timehr}PM` }
+    else { `${timehr - 12}PM` }
     //targets the save btn and listens for a click to run event
+
+
+
     $(this).find(".btn").on("click", function (e) {
         // prevents the page from refreshing on submit
         e.preventDefault
         // grabs the saved plans from local storage
-        let plannerArray = JSON.parse(localStorage.getItem("plannerArray"))
+        if (JSON.parse(localStorage.getItem("plannerArray")) !== null) {
+            plannerArray = JSON.parse(localStorage.getItem("plannerArray"))
+        }
+
         // set the text to corresponding text area
         var plansText = $(`#hour-${timehr}`).find("textarea").val()
         //I need a way to select the correct textarea for each function
         plannerArray[`${timehr - 9}`].plans = plansText
         // if the space is not empty save into local storage
-        if (plansText !== "") { localStorage.setItem("plannerArray", JSON.stringify(plannerArray)) }
+        { localStorage.setItem("plannerArray", JSON.stringify(plannerArray)) }
 
     })
 
@@ -57,10 +72,11 @@ $(".time-block").each(function () {
     plannerArray.push(planner)
 
 })
+// WHERE would I put it??
 
-// if (timehr < 12) { `${timehr}AM` }
-// else if (timehr == 12) { `${timehr}PM` }
-// else { `${timehr - 12}PM` }
+
+
+
 
 //prints item from local storage into the corressponding text area
 function savedPlans() {
