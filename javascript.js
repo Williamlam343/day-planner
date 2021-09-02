@@ -43,17 +43,17 @@ $(".time-block").each(function () {
     // .bg-info
     // colorchanging function
     // How does it trigger?
+    // When currentTime = timehr set box to yellow
     // When currentTime < timehr set box to green
-    // When currentTime = timehr set box to red
     // Else set box to gray
 
     //Select ELement
 
     // 
-    if (`${timehr}` == hour) { $(`#hour-${timehr}`).find("textarea").addClass("bg-warning") }
-    else if (hour < timehr) { $(`#hour-${timehr}`).find("textarea").addClass("bg-success") }
-    else { $("textarea").addClass("bg-secondary") }
-
+    if (`${timehr}` == hour) { $(`#hour-${timehr}`).find("textarea").addClass("bg-warning text-white") }
+    else if (hour < timehr) { $(`#hour-${timehr}`).find("textarea").addClass("bg-success text-white") }
+    else { $("textarea").addClass("bg-secondary text-white") }
+    // $(".time-block").addClass('my-2')
     console.log(`${timehr} < ${hour}`)
 
     //targets the save btn and listens for a click to run event
