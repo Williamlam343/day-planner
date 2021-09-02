@@ -11,7 +11,8 @@ setInterval(function () {
     // get year
     const year = date.getFullYear();
     // hour
-    const hour = date.getHours();
+    let hour = date.getHours();
+    if (hour > 12) { hour -= 12 }
     // minute
     let minutes = date.getMinutes();
     if (minutes < 10) { minutes = `0` + `${minutes}` }
@@ -19,72 +20,49 @@ setInterval(function () {
     let seconds = date.getSeconds();
     if (seconds < 10) { seconds = `0` + `${seconds}` }
 
-    const formattedTime = `${month}/${day}/${year} ${hour - 12}:${minutes}:${seconds}`;
+    const formattedTime = `${month}/${day}/${year} ${hour}:${minutes}:${seconds}`;
     $("#currentDay").text(formattedTime);
 }, 1000);
 
 
-
 var plannerArray = []
-// console.log(plannerArray)
+
 //TODO THEN I am presented with timeblocks for standard business hours
 
-
+// runs the same function for each time block
 $(".time-block").each(function () {
     // grabs attr data-num value then determines if it's morning or afternoon
     var timehr = $(this).attr("data-num")
-    // if (timehr < 12) { `${timehr}AM` }
-    // else if (timehr == 12) { `${timehr}PM` }
-    // else { `${timehr - 12}PM` }
 
+    //targets the save btn and listens for a click to run event
+    $(this).find(".btn").on("click", function (e) {
+        // prevents the page from refreshing on submit
+        e.preventDefault
+        // grabs the saved plans from local storage
+        let plannerArray = JSON.parse(localStorage.getItem("plannerArray"))
+        // set the text to corresponding text area
+        var plansText = $(`#hour-${timehr}`).find("textarea").val()
+        //I need a way to select the correct textarea for each function
+        plannerArray[`${timehr - 9}`].plans = plansText
+        // if the space is not empty save into local storage
+        if (plansText !== "") { localStorage.setItem("plannerArray", JSON.stringify(plannerArray)) }
 
-
+    })
 
     var planner = {
         time: timehr,
         plans: $(this).find("textarea").val()
     }
 
-
-
     plannerArray.push(planner)
-    //TODO THEN I can enter an event
-    //TODO THEN the text for that event is saved in local storage
 
 })
 
-// var plansText = $("#hour-9").find("textarea").val()
-//TODO THEN each timeblock is color coded to indicate whether it is in the past, present, or future
-//on click on input button prevent default select the textarea class
-$("#hour-9").find(".btn").on("click", function (e) {
-    e.preventDefault
-    var plansText = $("#hour-9").find("textarea").val()
+// if (timehr < 12) { `${timehr}AM` }
+// else if (timehr == 12) { `${timehr}PM` }
+// else { `${timehr - 12}PM` }
 
-    plannerArray[0].plans = plansText
-    localStorage.setItem("plannerArray", JSON.stringify(plannerArray))
-})
-
-
-
-
-//planner object will then save the text
-// store into local storage
-//then retrive from local storage and paste into the box when the page is reloaded
-
-// GIVEN I am using a daily planner to create a schedule
-// WHEN I open the planner
-
-// WHEN I scroll down
-
-// WHEN I view the timeblocks for that day
-
-// WHEN I click into a timeblock
-
-// WHEN I click the save button for that timeblock
-
-// WHEN I refresh the page
-//TODO THEN the saved events persist
-
+//prints item from local storage into the corressponding text area
 function savedPlans() {
 
     let plannerArray = JSON.parse(localStorage.getItem("plannerArray"))
@@ -92,14 +70,10 @@ function savedPlans() {
     if (plannerArray === null) { return }
 
     for (let i = 0; i < plannerArray.length; i++) {
-        if ($(".time-block").attr("data-num") == plannerArray[i].time) {
-            // TODO NOW MAKE IT WORK FOR ALL
-            $("#hour-9").find("textarea").text(plannerArray[i].plans)
-
-        }
+        $("#hour-" + [i + 9]).find("textarea").text(plannerArray[i].plans)
 
     }
-    console.log(plannerArray)
+
 }
 
 savedPlans()
